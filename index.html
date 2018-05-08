@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+
+	<!-- TODO update title -->
+	<title></title>
+
+	<!-- TODO update description -->
+	<meta name="description" content="">
+	<!-- TODO update author -->
+	<meta name="author" content="Paul Shannon">
+
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+	<meta name="viewport"
+		  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+	<link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
+	<link rel="stylesheet" href="node_modules/reveal.js/css/theme/sky.css" id="theme">
+
+	<!-- Code syntax highlighting -->
+	<link rel="stylesheet" href="node_modules/reveal.js/lib/css/zenburn.css">
+	<link rel="stylesheet" href="resources/main.css">
+
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'node_modules/reveal.js/css/print/pdf.css' : 'node_modules/reveal.js/css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+
+<div class="reveal">
+	<!-- Any section element inside of this container is displayed as a slide -->
+	<div class="slides">
+		<section class="title">
+			<img src="./images/nest.jpg">
+			<h2>Nest Framework</h2>
+		</section>
+
+		<section>
+			<h2>Hello!</h2>
+
+			<div class="two-column">
+				<div>
+					<h3>Paul Shannon</h3>
+					<img src="./images/sitepen.png" class="removeFormatting">
+				</div>
+				<div>
+					<ul>
+						<li>Sr Engineer @ SitePen</li>
+						<li>TalkScript Podcast</li>
+						<li>Phoenix TypeScript</li>
+						<li class="github no-style"><a href="https://github.com/devpaul">devpaul</a></li>
+						<li class="twitter no-style"><a href="https://twitter.com/developerPaul">@developerPaul</a></li>
+					</ul>
+				</div>
+			</div>
+			<aside class="notes">
+				TODO add images to intern, podcast, phxts, github, twitter
+			</aside>
+		</section>
+
+		<section>
+			<h3>What is Nest?</h3>
+
+			<p>A scalable framework for building server-side applications</p>
+		</section>
+
+		<section>
+			<h3>Features</h3>
+
+			<ul>
+				<li class="fragment">Authored in TypeScript</li>
+				<li class="fragment">Built on top of Express</li>
+				<li class="fragment">modern language features like async/await</li>
+				<li class="fragment">decorators to reduce cruft</li>
+			</ul>
+		</section>
+
+		<section class="title">
+			<img src="./images/nest.jpg">
+			<h3>Structure</h3>
+		</section>
+
+		<section>
+			<h3>Controller</h3>
+
+			<p>Handles routes & HTTP requests for the application</p>
+		</section>
+
+		<section>
+			<img src="./images/Controllers_1.png">
+		</section>
+
+		<section>
+			<pre><code data-trim data-noescape>
+				@Controller('hello')
+				export class HelloController {
+					constructor(private readonly helloService: HelloService) { }
+
+					@Get()
+					getGreeting() {
+						const thing = this.helloService.get();
+						return `Hello, ${ thing }`;
+					}
+
+					@Post()
+					setGreeting(@Body() thing: string) {
+						return this.helloService.set(thing);
+					}
+				}
+			</code></pre>
+		</section>
+
+		<section>
+			<h3>Component</h3>
+
+			<p>Typically hold and mutate state to be injected</p>
+		</section>
+
+		<section>
+			<img src="./images/Components_1.png">
+		</section>
+
+		<section>
+			<pre><code data-trim data-noescape>
+				@Component()
+				export class HelloService {
+					private thing = ‘World’;
+
+					get() {
+						return this.thing;
+					}
+
+					set(thing: string) {
+						this.thing = thing;
+					}
+				}
+			</code></pre>
+		</section>
+
+		<section>
+			<h3>Module</h3>
+
+			<p>Provides metadata about the structure of a feature</p>
+		</section>
+
+		<section>
+			<img src="./images/Modules_1.png">
+		</section>
+
+		<section>
+			<pre><code data-trim data-noescape>
+				import { Module } from '@nestjs/common';
+				import { HelloController } from './HelloController;
+				import { HelloService } from './HelloService;
+
+				@Module({
+					controllers: [ HelloController ],
+					components: [ HelloService ]
+				})
+				export class HelloModule { }
+			</code></pre>
+		</section>
+
+		<section>
+			<h3>Other features</h3>
+
+			<ul>
+				<li>Middlewares</li>
+				<li>Exception filters</li>
+				<li>Pipes</li>
+				<li>Guards</li>
+				<li>Interceptors</li>
+				<li>Custom Decorators</li>
+			</ul>
+			<aside class="notes">
+				<ul>
+					<li>Middleware allows for modules to intercept</li>
+					<li>Exception filters allows for specific exception handling</li>
+					<li>Pipes transform the input data</li>
+					<li>Guards limit access to methods, Controllers, or globally</li>
+					<li>Interceptors allow you to do things before or after a request</li>
+					<li>Custom Decorators provide simple access to the request</li>
+				</ul>
+			</aside>
+		</section>
+
+		<section class="title">
+			<img src="./images/nest.jpg">
+			<h3>Demo</h3>
+		</section>
+
+		<section>
+			<p>Example API server</p>
+			<p>https://github.com/devpaul/monorepo-todo</p>
+
+			<ul>
+				<li>Nest</li>
+				<li>passport for authentication</li>
+				<li>jsonwebtoken for tokenization</li>
+				<li>mongoose & mongo for persistence</li>
+				<li>mockgoose for development</li>
+			</ul>
+		</section>
+
+		<section class="title">
+			<img src="./images/nest.jpg">
+			<h3>Benefits</h3>
+		</section>
+
+		<section>
+			<p>Clear patterns and compartmentalization</p>
+		</section>
+
+		<section>
+			<p>Dependency Injection</p>
+			<aside class="notes">
+				Provides a well-defined place to put stuff
+			</aside>
+		</section>
+
+		<section>
+			<p>Decorators remove visual cruft</p>
+			<aside class="notes">
+				Decorators allow for pattern reuse outside of the business logic flow. Improves visibility & reuse.
+			</aside>
+		</section>
+
+		<section>
+			<p>Typings</p>
+			<aside class="notes">
+				Types provide support to learners and safety for applications
+			</aside>
+		</section>
+
+		<section>
+			<p>Designed beyond just HTTP</p>
+
+			<ul>
+				<li>WebSockets</li>
+				<li>TCP protocols "microservices"</li>
+				<li>GraphQL</li>
+				<li>Testing</li>
+				<li>Documentation</li>
+			</ul>
+		</section>
+
+		<section class="title">
+			<img src="./images/nest.jpg">
+			<h3>Questions?</h3>
+		</section>
+
+		<section>
+			<h2>Thanks!</h2>
+
+			<p><a href="https://github.com/devpaul/monorepo-todo">Checkout the Demo</a></p>
+			<p>@github: <b>devpaul/monorepo-todo</b></p>
+		</section>
+	</div>
+</div>
+
+<script src="node_modules/reveal.js/lib/js/head.min.js"></script>
+<script src="node_modules/reveal.js/js/reveal.js"></script>
+<script src="src/index.js"></script>
+
+</body>
+</html>
